@@ -1,0 +1,2 @@
+serviceClass: com.senselessweb.cradiobackend.client.CRadioStorageService
+path: 800774EDFF1CA80FD647EC72596D978B.gwt.rpc
