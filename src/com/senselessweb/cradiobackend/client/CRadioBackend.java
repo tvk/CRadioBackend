@@ -28,6 +28,7 @@ public class CRadioBackend implements EntryPoint
 	private final CRadioStorageServiceAsync storageService = 
 			GWT.create(CRadioStorageService.class);
 
+	
 	/**
 	 * This is the entry point method.
 	 */
