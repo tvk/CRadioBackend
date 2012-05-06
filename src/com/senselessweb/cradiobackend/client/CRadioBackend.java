@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.senselessweb.cradiobackend.shared.model.UserSettings;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 
 @SuppressWarnings("javadoc")
 public class CRadioBackend implements EntryPoint, ClickHandler
@@ -66,15 +67,39 @@ public class CRadioBackend implements EntryPoint, ClickHandler
 	
 	
 	private UserSettings userSettings;
+	private final AbsolutePanel welcomePanel = new AbsolutePanel();
+	private final Label lblWelcomeToThe = new Label("Welcome to the CRadio backend application");
+	private final Label lblInThisApplication = new Label("In this application you can manage the presets and desired genres for your CRadio android application");
+	private final Label lblYourCradioApplication = new Label("Your CRadio application id is:");
+	private final Label lblApplicationId = new Label("");
+	private final Label lblNewLabel = new Label("CRadio Backend");
 	
 	@Override
 	public void onModuleLoad() 
 	{
 		RootPanel rootPanel = RootPanel.get("modifyPresetsContainer");
 		rootPanel.getElement().getStyle().setPosition(Position.RELATIVE);
+		this.lblNewLabel.setStyleName("cradio-title");
 		
-		rootPanel.add(this.tabPanel, 10, 10);
+		rootPanel.add(this.lblNewLabel, 10, 10);
+		this.lblNewLabel.setSize("570px", "15px");
+		
+		rootPanel.add(this.tabPanel, 10, 31);
 		this.tabPanel.setSize("570px", "385px");
+		this.tabPanel.add(this.welcomePanel, "Welcome", false);
+		this.welcomePanel.setSize("551px", "337px");
+		this.lblWelcomeToThe.setStyleName("cradio-headline");
+		this.lblWelcomeToThe.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		
+		this.welcomePanel.add(this.lblWelcomeToThe, 10, 10);
+		this.lblWelcomeToThe.setSize("531px", "38px");
+		
+		this.welcomePanel.add(this.lblInThisApplication, 10, 54);
+		
+		this.welcomePanel.add(this.lblYourCradioApplication, 10, 90);
+		
+		this.welcomePanel.add(this.lblApplicationId, 187, 90);
+		this.lblApplicationId.setSize("104px", "15px");
 		
 		this.tabPanel.add(this.presetsPanel, "Presets", false);
 		this.presetsPanel.setSize("524px", "334px");
@@ -128,7 +153,7 @@ public class CRadioBackend implements EntryPoint, ClickHandler
 		
 		this.genresPanel.add(this.label_8, 10, 309);
 		
-		rootPanel.add(this.btnSave, 10, 411);
+		rootPanel.add(this.btnSave, 10, 422);
 		rootPanel.getElement().getStyle().setPosition(Position.RELATIVE);
 		
 		this.init();
@@ -139,13 +164,16 @@ public class CRadioBackend implements EntryPoint, ClickHandler
 	 */
 	private void init()
 	{
+		this.tabPanel.selectTab(0);
 		this.btnSave.addClickHandler(this);
+		
 		this.storageService.get(new AsyncCallback<UserSettings>() 
 		{
 			@Override
 			public void onSuccess(final UserSettings result) 
 			{
 				CRadioBackend.this.userSettings = result;
+				lblApplicationId.setText(String.valueOf(result.getId()));
 				
 				// Init genres
 				final SortedSet<String> allGenres = new TreeSet<String>();
@@ -212,5 +240,10 @@ public class CRadioBackend implements EntryPoint, ClickHandler
 				}
 			});
 		}
+	}
+	
+	private void raiseMessage(final String message)
+	{
+		
 	}
 }

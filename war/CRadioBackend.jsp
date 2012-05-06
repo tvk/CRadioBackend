@@ -12,6 +12,7 @@
     <!-- Consider inlining CSS to reduce the number of requested files -->
     <!--                                                               -->
     <link type="text/css" rel="stylesheet" href="CRadioBackend.css">
+	<link href='http://fonts.googleapis.com/css?family=Audiowide' rel='stylesheet' type='text/css'>
 
     <!--                                           -->
     <!-- Any title is fine                         -->
@@ -43,10 +44,8 @@
         in order for this application to display correctly.
       </div>
     </noscript>
-
-    <h1>CRadio Backend</h1>
     
-    <div style="margin:auto;width:540px;" id="modifyPresetsContainer"></div>
+    <div id="modifyPresetsContainer"></div>
     
   </body>
 </html>
