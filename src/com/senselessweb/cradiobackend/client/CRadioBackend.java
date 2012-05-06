@@ -14,13 +14,14 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.senselessweb.cradiobackend.shared.model.UserSettings;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 
 @SuppressWarnings("javadoc")
 public class CRadioBackend implements EntryPoint, ClickHandler
@@ -193,13 +194,13 @@ public class CRadioBackend implements EntryPoint, ClickHandler
 				textBoxPreset5.setText(result.getPresets()[4]);
 				textBoxPreset6.setText(result.getPresets()[5]);
 				
+				raiseMessage("Settings successfully loaded", null);								
 			}
 			
 			@Override
 			public void onFailure(final Throwable caught) 
 			{
-				// TODO Auto-generated method stub
-				
+				raiseMessage("Settings could not be loaded", caught);				
 			}
 		});
 	}
@@ -228,22 +229,28 @@ public class CRadioBackend implements EntryPoint, ClickHandler
 				@Override
 				public void onSuccess(final Void result) 
 				{
-					// TODO Auto-generated method stub
-					
+					raiseMessage("Settings successfully saved", null);
 				}
 				
 				@Override
 				public void onFailure(final Throwable caught) 
 				{
-					// TODO Auto-generated method stub
-					
+					raiseMessage("Settings could not be saved", caught);
 				}
 			});
 		}
 	}
 	
-	private void raiseMessage(final String message)
+	private void raiseMessage(final String message, final Throwable e)
 	{
+		final DialogBox dialogBox = new DialogBox(true, true);
+		dialogBox.setAnimationEnabled(true);
 		
+		if (e != null)
+			dialogBox.setText(message + " :" + e.getMessage());
+		else
+			dialogBox.setText(message);
+			
+		dialogBox.show();
 	}
 }
