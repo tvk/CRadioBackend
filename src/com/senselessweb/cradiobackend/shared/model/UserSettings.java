@@ -1,5 +1,8 @@
 package com.senselessweb.cradiobackend.shared.model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -10,7 +13,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable
-public class UserSettings 
+public class UserSettings implements Serializable
 {
 
 	@PrimaryKey
@@ -21,10 +24,14 @@ public class UserSettings
 	private String userId;
 
 	@Persistent 
-	private Collection<String> genres = Collections.emptySet();
+	private String[] genres = new String[0];
 
 	@Persistent 
-	private List<String> presets = Collections.emptyList();
+	private String[] presets = new String[6];
+	
+	public UserSettings() {
+		// TODO Auto-generated constructor stub
+	}
 	
 	public UserSettings(final String userId) 
 	{
@@ -42,18 +49,18 @@ public class UserSettings
 	}
 	
 	public Collection<String> getGenres() {
-		return genres;
+		return Arrays.asList(this.genres);
 	}
 	
 	public void setGenres(Collection<String> genres) {
-		this.genres = genres;
+		this.genres = genres.toArray(new String[genres.size()]);
 	}
 	
-	public List<String> getPresets() {
-		return presets;
+	public String[] getPresets() {
+		return this.presets;
 	}
 	
-	public void setPresets(List<String> presets) {
+	public void setPresets(String[] presets) {
 		this.presets = presets;
 	}
 }

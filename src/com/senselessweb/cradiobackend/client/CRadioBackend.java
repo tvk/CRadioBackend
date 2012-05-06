@@ -2,8 +2,9 @@ package com.senselessweb.cradiobackend.client;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Map;
-import java.util.SortedMap;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -18,141 +19,198 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.TextBox;
+import com.senselessweb.cradiobackend.shared.model.UserSettings;
 
-/**
- * Entry point classes define <code>onModuleLoad()</code>.
- */
-public class CRadioBackend implements EntryPoint
+@SuppressWarnings("javadoc")
+public class CRadioBackend implements EntryPoint, ClickHandler
 {
+	private final TabPanel tabPanel = new TabPanel();
+	private final AbsolutePanel presetsPanel = new AbsolutePanel();
+	private final Label label = new Label("Preset 1:");
+	private final TextBox textBoxPreset1 = new TextBox();
+	private final Label label_1 = new Label("Preset 2:");
+	private final TextBox textBoxPreset2 = new TextBox();
+	private final Label label_2 = new Label("Preset 3:");
+	private final TextBox textBoxPreset3 = new TextBox();
+	private final Label label_3 = new Label("Preset 4:");
+	private final TextBox textBoxPreset4 = new TextBox();
+	private final Label label_4 = new Label("Here you can modify your presets:");
+	private final Label label_5 = new Label("Preset 5:");
+	private final TextBox textBoxPreset5 = new TextBox();
+	private final TextBox textBoxPreset6 = new TextBox();
+	private final Label label_6 = new Label("Preset 6:");
+	private final AbsolutePanel genresPanel = new AbsolutePanel();
+	private final Label label_7 = new Label("Here you can select your genres:");
+	private final ListBox listBoxGenres = new ListBox(true);
+	private final Label label_8 = new Label("Hold <CTRL> to select multiple genres");
+	private final Button btnSave = new Button("Save");
 
-	private final CRadioStorageServiceAsync storageService = 
-			GWT.create(CRadioStorageService.class);
+	private static final Set<String> genres = new HashSet<String>();
+	static {
+		genres.add("Electronic");
+		genres.add("Trance");
+		genres.add("Alternative");
+		genres.add("R&B/Urban");
+		genres.add("Reggae");
+		genres.add("Reggaeton");
+		genres.add("Metal");
+		genres.add("Rock");
+		genres.add("Pop");
+		genres.add("Blues");
+		genres.add("Easy Listening");
+		genres.add("Trance");
+	}
 
+	private final CRadioUserSettingsServiceAsync storageService = 
+			GWT.create(CRadioUserSettingsService.class);
 	
-	/**
-	 * This is the entry point method.
-	 */
+	
+	private UserSettings userSettings;
+	
+	@Override
 	public void onModuleLoad() 
 	{
-
-		// Add the nameField and sendButton to the RootPanel
-		// Use RootPanel.get() to get the entire body element
 		RootPanel rootPanel = RootPanel.get("modifyPresetsContainer");
 		rootPanel.getElement().getStyle().setPosition(Position.RELATIVE);
 		
-		TabPanel tabPanel = new TabPanel();
-		rootPanel.add(tabPanel, 10, 31);
-		tabPanel.setSize("540px", "385px");
+		rootPanel.add(this.tabPanel, 10, 10);
+		this.tabPanel.setSize("570px", "385px");
 		
-		AbsolutePanel presetsPanel = new AbsolutePanel();
-		tabPanel.add(presetsPanel, "Presets", false);
-		presetsPanel.setSize("524px", "334px");
+		this.tabPanel.add(this.presetsPanel, "Presets", false);
+		this.presetsPanel.setSize("524px", "334px");
 		
-		Label lblPreset_1 = new Label("Preset 1:");
-		presetsPanel.add(lblPreset_1, 10, 67);
+		this.presetsPanel.add(this.label, 10, 67);
 		
-		TextBox textBox = new TextBox();
-		presetsPanel.add(textBox, 69, 62);
-		textBox.setSize("431px", "15px");
+		this.presetsPanel.add(this.textBoxPreset1, 69, 62);
+		this.textBoxPreset1.setSize("431px", "15px");
 		
-		Label lblPreset_2 = new Label("Preset 2:");
-		presetsPanel.add(lblPreset_2, 10, 98);
-		lblPreset_2.setSize("53px", "15px");
+		this.presetsPanel.add(this.label_1, 10, 98);
+		this.label_1.setSize("53px", "15px");
 		
-		TextBox textBox_2 = new TextBox();
-		presetsPanel.add(textBox_2, 69, 93);
-		textBox_2.setSize("431px", "15px");
+		this.presetsPanel.add(this.textBoxPreset2, 69, 93);
+		this.textBoxPreset2.setSize("431px", "15px");
 		
-		Label lblPreset_3 = new Label("Preset 3:");
-		presetsPanel.add(lblPreset_3, 10, 129);
-		lblPreset_3.setSize("53px", "15px");
+		this.presetsPanel.add(this.label_2, 10, 129);
+		this.label_2.setSize("53px", "15px");
 		
-		TextBox textBox_3 = new TextBox();
-		presetsPanel.add(textBox_3, 69, 124);
-		textBox_3.setSize("431px", "15px");
+		this.presetsPanel.add(this.textBoxPreset3, 69, 124);
+		this.textBoxPreset3.setSize("431px", "15px");
 		
-		Label lblPreset_4 = new Label("Preset 4:");
-		presetsPanel.add(lblPreset_4, 10, 160);
-		lblPreset_4.setSize("53px", "15px");
+		this.presetsPanel.add(this.label_3, 10, 160);
+		this.label_3.setSize("53px", "15px");
 		
-		TextBox textBox_4 = new TextBox();
-		presetsPanel.add(textBox_4, 69, 155);
-		textBox_4.setSize("431px", "15px");
+		this.presetsPanel.add(this.textBoxPreset4, 69, 155);
+		this.textBoxPreset4.setSize("431px", "15px");
 		
-		Label headline = new Label("Here you can modify your presets:");
-		presetsPanel.add(headline, 10, 10);
+		this.presetsPanel.add(this.label_4, 10, 10);
 		
-		Label lblPreset_5 = new Label("Preset 5:");
-		presetsPanel.add(lblPreset_5, 10, 191);
-		lblPreset_5.setSize("53px", "15px");
+		this.presetsPanel.add(this.label_5, 10, 191);
+		this.label_5.setSize("53px", "15px");
 		
-		TextBox textBox_5 = new TextBox();
-		presetsPanel.add(textBox_5, 69, 186);
-		textBox_5.setSize("431px", "15px");
+		this.presetsPanel.add(this.textBoxPreset5, 69, 186);
+		this.textBoxPreset5.setSize("431px", "15px");
 		
-		TextBox textBox_6 = new TextBox();
-		presetsPanel.add(textBox_6, 69, 217);
-		textBox_6.setSize("431px", "15px");
+		this.presetsPanel.add(this.textBoxPreset6, 69, 217);
+		this.textBoxPreset6.setSize("431px", "15px");
 		
-		Label lblPreset_6 = new Label("Preset 6:");
-		presetsPanel.add(lblPreset_6, 10, 222);
-		lblPreset_6.setSize("53px", "15px");
+		this.presetsPanel.add(this.label_6, 10, 222);
+		this.label_6.setSize("53px", "15px");
 		
-		AbsolutePanel genresPanel = new AbsolutePanel();
-		tabPanel.add(genresPanel, "Genres", false);
-		genresPanel.setSize("520px", "334px");
+		this.tabPanel.add(this.genresPanel, "Genres", false);
+		this.genresPanel.setSize("520px", "334px");
 		
-		Label lblHereYouCan = new Label("Here you can select your genres:");
-		genresPanel.add(lblHereYouCan, 10, 10);
-		lblHereYouCan.setSize("200px", "15px");
+		this.genresPanel.add(this.label_7, 10, 10);
+		this.label_7.setSize("200px", "15px");
+		this.listBoxGenres.setVisibleItemCount(5);
 		
-		final ListBox listBox = new ListBox(true);
-		genresPanel.add(listBox, 10, 31);
-		listBox.setSize("496px", "272px");
-		listBox.setVisibleItemCount(5);
+		this.genresPanel.add(this.listBoxGenres, 10, 31);
+		this.listBoxGenres.setSize("235px", "272px");
 		
-		Label lblHoldToSelect = new Label("Hold <CTRL> to select multiple genres");
-		genresPanel.add(lblHoldToSelect, 10, 309);
+		this.genresPanel.add(this.label_8, 10, 309);
 		
-		Button btnNewButton = new Button("Save");
-		btnNewButton.addClickHandler(new ClickHandler() {
-			public void onClick(final ClickEvent event) {
-				final Collection<String> selectedGenres = new HashSet<String>();
-				for (int i = 0; i < listBox.getItemCount(); i++)
-					if (listBox.isItemSelected(i)) 
-						selectedGenres.add(listBox.getValue(i));
-				storageService.updateGenres(selectedGenres, new AsyncCallback() {
-					@Override public void onFailure(Throwable caught) {
-						throw new RuntimeException(caught);
-					}
-
-					@Override public void onSuccess(Object result) {
-						// TODO Auto-generated method stub
-					}
-				});
-			}
-		});
-		rootPanel.add(btnNewButton, 10, 424);
+		rootPanel.add(this.btnSave, 10, 411);
+		rootPanel.getElement().getStyle().setPosition(Position.RELATIVE);
 		
-		this.storageService.getAllGenres(new AsyncCallback<SortedMap<String, Boolean>>() 
+		this.init();
+	}
+	
+	/**
+	 * Custom initialization
+	 */
+	private void init()
+	{
+		this.btnSave.addClickHandler(this);
+		this.storageService.get(new AsyncCallback<UserSettings>() 
 		{
-			
 			@Override
-			public void onSuccess(SortedMap<String, Boolean> result) 
+			public void onSuccess(final UserSettings result) 
 			{
-				for (final Map.Entry<String, Boolean> genre : result.entrySet())
+				CRadioBackend.this.userSettings = result;
+				
+				// Init genres
+				final SortedSet<String> allGenres = new TreeSet<String>();
+				allGenres.addAll(genres);
+				allGenres.addAll(result.getGenres());
+				for (final String genre : genres)
 				{
-					listBox.addItem(genre.getKey(), genre.getKey());
-					listBox.setItemSelected(listBox.getItemCount()-1, genre.getValue());
+					listBoxGenres.addItem(genre, genre);
+					listBoxGenres.setItemSelected(listBoxGenres.getItemCount() - 1, result.getGenres().contains(genre));
 				}
+				
+				// Init presets
+				textBoxPreset1.setText(result.getPresets()[0]);
+				textBoxPreset2.setText(result.getPresets()[1]);
+				textBoxPreset3.setText(result.getPresets()[2]);
+				textBoxPreset4.setText(result.getPresets()[3]);
+				textBoxPreset5.setText(result.getPresets()[4]);
+				textBoxPreset6.setText(result.getPresets()[5]);
+				
 			}
 			
 			@Override
-			public void onFailure(Throwable caught) 
+			public void onFailure(final Throwable caught) 
 			{
-				throw new RuntimeException(caught);
+				// TODO Auto-generated method stub
+				
 			}
 		});
-		
-	}	
+	}
+	
+	@Override
+	public void onClick(final ClickEvent event) 
+	{
+		if (event.getSource() == this.btnSave)
+		{
+			final Collection<String> genres = new HashSet<String>();
+			for (int i = 0; i < this.listBoxGenres.getItemCount(); i++)
+				if (this.listBoxGenres.isItemSelected(i)) genres.add(this.listBoxGenres.getValue(i));
+			this.userSettings.setGenres(genres);
+			
+			final String[] presets = new String[6];
+			presets[0] = this.textBoxPreset1.getText();
+			presets[1] = this.textBoxPreset2.getText();
+			presets[2] = this.textBoxPreset3.getText();
+			presets[3] = this.textBoxPreset4.getText();
+			presets[4] = this.textBoxPreset5.getText();
+			presets[5] = this.textBoxPreset6.getText();
+			this.userSettings.setPresets(presets);
+			
+			this.storageService.update(userSettings, new AsyncCallback<Void>() 
+			{
+				@Override
+				public void onSuccess(final Void result) 
+				{
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void onFailure(final Throwable caught) 
+				{
+					// TODO Auto-generated method stub
+					
+				}
+			});
+		}
+	}
 }

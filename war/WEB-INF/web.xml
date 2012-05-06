@@ -19,7 +19,7 @@
   <!-- Servlets -->
   <servlet>
     <servlet-name>cRadioStorageServlet</servlet-name>
-    <servlet-class>com.senselessweb.cradiobackend.server.CRadioStorageServiceImpl</servlet-class>
+    <servlet-class>com.senselessweb.cradiobackend.server.CRadioUserSettingsServiceImpl</servlet-class>
   </servlet>
   
   <servlet-mapping>
