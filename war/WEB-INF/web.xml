@@ -26,6 +26,17 @@
     <servlet-name>cRadioStorageServlet</servlet-name>
     <url-pattern>/cradiobackend/cRadioStorage</url-pattern>
   </servlet-mapping>
+
+  <servlet>
+    <servlet-name>cRadioSettingsServlet</servlet-name>
+    <servlet-class>com.senselessweb.cradiobackend.web.SettingsServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>cRadioSettingsServlet</servlet-name>
+    <url-pattern>/cradiobackend/cRadioSettings</url-pattern>
+  </servlet-mapping>
+  
   
   <!-- Default page to serve -->
   <welcome-file-list>

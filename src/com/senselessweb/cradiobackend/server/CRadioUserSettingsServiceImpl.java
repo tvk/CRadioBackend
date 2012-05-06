@@ -52,5 +52,14 @@ public class CRadioUserSettingsServiceImpl  extends RemoteServiceServlet impleme
 		persistenceManager.makePersistent(userSettings);
 		persistenceManager.close();
 	}
+
+	public UserSettings get(Long appId) 
+	{
+		final PersistenceManager persistenceManager = pmf.getPersistenceManager();
+		final UserSettings result = persistenceManager.getObjectById(UserSettings.class, appId);
+		
+		persistenceManager.close();
+		return result;
+	}
 	
 }
