@@ -1,2 +1,0 @@
-serviceClass: com.senselessweb.cradiobackend.client.CRadioUserSettingsService
-path: 4E755E271B981A0DFDF959CD8C15D150.gwt.rpc

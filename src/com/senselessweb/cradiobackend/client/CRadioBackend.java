@@ -22,6 +22,8 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.senselessweb.cradiobackend.shared.model.UserSettings;
+import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.Image;
 
 @SuppressWarnings("javadoc")
 public class CRadioBackend implements EntryPoint, ClickHandler
@@ -44,7 +46,6 @@ public class CRadioBackend implements EntryPoint, ClickHandler
 	private final AbsolutePanel genresPanel = new AbsolutePanel();
 	private final Label label_7 = new Label("Here you can select your genres:");
 	private final ListBox listBoxGenres = new ListBox(true);
-	private final Label label_8 = new Label("Hold <CTRL> to select multiple genres");
 	private final Button btnSave = new Button("Save");
 
 	private static final Set<String> genres = new HashSet<String>();
@@ -74,6 +75,9 @@ public class CRadioBackend implements EntryPoint, ClickHandler
 	private final Label lblYourCradioApplication = new Label("Your CRadio application id is:");
 	private final Label lblApplicationId = new Label("");
 	private final Label lblNewLabel = new Label("CRadio Backend");
+	private final PushButton pushButton = new PushButton(">");
+	private final PushButton pushButton_1 = new PushButton(">");
+	private final PushButton pushButton_2 = new PushButton(">");
 	
 	@Override
 	public void onModuleLoad() 
@@ -150,9 +154,16 @@ public class CRadioBackend implements EntryPoint, ClickHandler
 		this.listBoxGenres.setVisibleItemCount(5);
 		
 		this.genresPanel.add(this.listBoxGenres, 10, 31);
-		this.listBoxGenres.setSize("235px", "272px");
+		this.listBoxGenres.setSize("235px", "241px");
+		this.pushButton.getUpFace().setImage(new Image("images/arrow_up.gif"));
 		
-		this.genresPanel.add(this.label_8, 10, 309);
+		this.genresPanel.add(this.pushButton, 250, 64);
+		this.pushButton_1.getUpFace().setImage(new Image("images/arrow_down.gif"));
+		
+		this.genresPanel.add(this.pushButton_1, 250, 93);
+		this.pushButton_2.getUpFace().setImage(new Image("images/icon_trash.png"));
+		
+		this.genresPanel.add(this.pushButton_2, 250, 122);
 		
 		rootPanel.add(this.btnSave, 10, 422);
 		rootPanel.getElement().getStyle().setPosition(Position.RELATIVE);
