@@ -4,7 +4,7 @@
 war/WEB-INF/classes
 war/cradiobackend
 gwt-unitCache
-/.gwt
+.gwt
 
 # App engine
 war/WEB-INF/appengine-generated/
